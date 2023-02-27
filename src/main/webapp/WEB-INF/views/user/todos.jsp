@@ -14,6 +14,7 @@
                         <th>Description</th>
                         <th>Target Date</th>
                         <th>Is It Done?</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,6 +24,7 @@
                         <td>${todo.description}</td>
                         <td>${todo.targetDate}</td>
                         <td>${todo.done}</td>
+                        <td><a href="/todos/delete?id=${todo.id}" class="btn btn-warning">Delete</a>
                       </tr>
                     </c:forEach>
                 </tbody>

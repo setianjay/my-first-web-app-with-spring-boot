@@ -9,6 +9,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
@@ -60,6 +61,12 @@ public class TodosController {
             return new RedirectView("/todos/create");
         }
         todosService.addTodo(todo);
+        return new RedirectView("/todos");
+    }
+
+    @GetMapping("/todos/delete")
+    public RedirectView deleteTodo(@RequestParam long id){
+        todosService.deleteTodoById(id);
         return new RedirectView("/todos");
     }
 }

@@ -35,4 +35,8 @@ public class TodosService {
         );
         todos.add(todo);
     }
+
+    public void deleteTodoById(long id){
+        todos.removeIf(todo -> todo.getId() == id);
+    }
 }
