@@ -1,4 +1,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <html>
     <head>
         <title>Todos Page</title>
@@ -19,23 +21,30 @@
                 <h1>Add Todo</h1>
                 <hr>
                 <div>
-                    <form method="post" class="form-control">
+                    <form:form method="post" cssClass="form-control" modelAttribute="todo">
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label" for="description">Description</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" name="description" required />
+                                <form:input cssClass="form-control" path="description" required="required" />
+                                <c:if test="${not empty errorMessage}">
+                                    <pre class="text-danger">${errorMessage}.</pre>
+                                </c:if>
                             </div>
                         </div>
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label" for="targetDate">Target Date</label>
                             <div class="col-sm-9">
-                                <input type="date" class="form-control" name="targetDate" required />
+                                <form:input path="targetDate" type="date" cssClass="form-control"  required="required"/>
                             </div>
                         </div>
+
+                        <form:input type="hidden" cssClass="form-control" path="username" />
+                        <form:input type="hidden" cssClass="form-control" path="done" />
+
                         <div class="d-flex justify-content-end">
                             <button type="submit" class="btn btn-success">Create</button>
                         </div>
-                    </form>
+                    </form:form>
                 </div>
             </div>
         </div>

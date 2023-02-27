@@ -21,6 +21,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+		<!-- to provide validation in spring boot side -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
 		<!-- to allowed run jsp file on tomcat server -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>

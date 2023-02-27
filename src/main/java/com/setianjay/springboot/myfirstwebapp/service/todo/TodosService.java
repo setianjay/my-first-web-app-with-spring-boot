@@ -1,6 +1,8 @@
 package com.setianjay.springboot.myfirstwebapp.service.todo;
 
 import com.setianjay.springboot.myfirstwebapp.model.Todo;
+import com.setianjay.springboot.myfirstwebapp.model.TodoArg;
+import com.setianjay.springboot.myfirstwebapp.util.FormatUtil;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -11,7 +13,7 @@ import java.util.List;
 @Service
 public class TodosService {
     private final static List<Todo> todos = new ArrayList<>();
-    private static int todoIdCounter = 0;
+    private static long todoIdCounter = 0L;
 
     static {
         todos.add(new Todo(++todoIdCounter, "setianjay", "Learn Android", LocalDate.now().plusYears(1L), false));
@@ -23,8 +25,14 @@ public class TodosService {
         return Collections.unmodifiableList(todos);
     }
 
-    public void addTodo(String username, String description, LocalDate targetDate){
-        Todo todo = new Todo(++todoIdCounter, username, description, targetDate, false);
+    public void addTodo(TodoArg todoArg) {
+        Todo todo = new Todo(
+                ++todoIdCounter,
+                todoArg.getUsername(),
+                todoArg.getDescription(),
+                FormatUtil.generalDateFormat(todoArg.getTargetDate().toString()),
+                todoArg.isDone()
+        );
         todos.add(todo);
     }
 }
