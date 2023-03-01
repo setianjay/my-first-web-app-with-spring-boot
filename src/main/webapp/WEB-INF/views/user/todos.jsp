@@ -15,6 +15,7 @@
                         <th>Target Date</th>
                         <th>Is It Done?</th>
                         <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,8 +24,19 @@
                         <td>${loop.index + 1}</td>
                         <td>${todo.description}</td>
                         <td>${todo.targetDate}</td>
-                        <td>${todo.done}</td>
+                        <td>
+                            <c:choose>
+                                <c:when test = "${todo.done}">
+                                    Yes
+                                </c:when>
+
+                                <c:otherwise>
+                                    No
+                                </c:otherwise>
+                            </c:choose>
+                        </td>
                         <td><a href="/todos/delete?id=${todo.id}" class="btn btn-warning">Delete</a>
+                        <td><a href="/todos/update?id=${todo.id}" class="btn btn-success">Update</a>
                       </tr>
                     </c:forEach>
                 </tbody>

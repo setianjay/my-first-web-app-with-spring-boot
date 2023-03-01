@@ -36,7 +36,23 @@ public class TodosService {
         todos.add(todo);
     }
 
-    public void deleteTodoById(long id){
+    public void deleteTodoById(long id) {
         todos.removeIf(todo -> todo.getId() == id);
+    }
+
+    public Todo findTodoById(long id) {
+        return todos.stream().filter(todo -> todo.getId() == id).findFirst().orElseThrow();
+    }
+
+    public void updateTodoById(long id, TodoArg newTodo) {
+        Todo changedTodo = findTodoById(id);
+        int indexOfChangedToDo = todos.indexOf(changedTodo);
+
+        if (indexOfChangedToDo != -1) {
+            changedTodo.setDescription(newTodo.getDescription());
+            changedTodo.setTargetDate(newTodo.getTargetDate());
+            changedTodo.setDone(newTodo.isDone());
+            todos.set(indexOfChangedToDo, changedTodo);
+        }
     }
 }

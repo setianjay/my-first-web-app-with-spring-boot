@@ -1,5 +1,6 @@
 package com.setianjay.springboot.myfirstwebapp.controller.todos;
 
+import com.setianjay.springboot.myfirstwebapp.model.Todo;
 import com.setianjay.springboot.myfirstwebapp.model.TodoArg;
 import com.setianjay.springboot.myfirstwebapp.service.todo.TodosService;
 import jakarta.validation.Valid;
@@ -67,6 +68,38 @@ public class TodosController {
     @GetMapping("/todos/delete")
     public RedirectView deleteTodo(@RequestParam long id){
         todosService.deleteTodoById(id);
+        return new RedirectView("/todos");
+    }
+
+    @GetMapping("/todos/update")
+    public String updateTodoPage(@RequestParam int id, Model model){
+        Todo todo = (Todo) model.asMap().getOrDefault("todo", todosService.findTodoById(id));
+        model.addAttribute("todo", todo);
+        model.addAttribute("errorMessage", model.asMap().getOrDefault("errorMessage", ""));
+        return "user/updateTodoForm";
+    }
+
+    @PostMapping("/todos/update")
+    public RedirectView updateTodoPage(@Valid Todo todo,
+                                       BindingResult result,
+                                       RedirectAttributes redirectAttributes
+    ){
+        if(result.hasErrors()){
+            List<ObjectError> errors = result.getAllErrors();
+            for(ObjectError error: errors){
+                String errorMessage = error.getDefaultMessage();
+                if (errorMessage != null) {
+                    redirectAttributes.addFlashAttribute("todo", todo);
+                    redirectAttributes.addFlashAttribute("errorMessage", errorMessage);
+                }
+            }
+
+            return new RedirectView("/todos/update?id="+todo.getId());
+        }
+
+        long todoId = todo.getId();
+        TodoArg todoArg = new TodoArg(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.isDone());
+        todosService.updateTodoById(todoId, todoArg);
         return new RedirectView("/todos");
     }
 }
