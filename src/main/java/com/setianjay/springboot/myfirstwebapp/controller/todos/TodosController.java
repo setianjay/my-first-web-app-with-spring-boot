@@ -36,9 +36,9 @@ public class TodosController {
     public String createTodoPage(Model model) {
         String username = (String) model.asMap().get("username");
         /* default initialization for Todos bean for handle of binding object in here and view and set default value */
-        TodoArg todo = (TodoArg) model.asMap().getOrDefault(
+        Todo todo = (Todo) model.asMap().getOrDefault(
                 "todo",
-                new TodoArg(username, "", null, false));
+                new Todo(0L, username, "", null, false));
         model.addAttribute("todo", todo);
         model.addAttribute("errorMessage", model.asMap().getOrDefault("errorMessage", ""));
         return "user/createTodoForm";
@@ -46,7 +46,7 @@ public class TodosController {
 
     @PostMapping("/todos/create")
     public RedirectView createTodo(
-            @Valid TodoArg todo,
+            @Valid Todo todo,
             BindingResult result,
             RedirectAttributes redirectAttributes
     ) {
@@ -61,18 +61,20 @@ public class TodosController {
             }
             return new RedirectView("/todos/create");
         }
-        todosService.addTodo(todo);
+
+        TodoArg todoArg = new TodoArg(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.isDone());
+        todosService.addTodo(todoArg);
         return new RedirectView("/todos");
     }
 
     @GetMapping("/todos/delete")
-    public RedirectView deleteTodo(@RequestParam long id){
+    public RedirectView deleteTodo(@RequestParam long id) {
         todosService.deleteTodoById(id);
         return new RedirectView("/todos");
     }
 
     @GetMapping("/todos/update")
-    public String updateTodoPage(@RequestParam int id, Model model){
+    public String updateTodoPage(@RequestParam int id, Model model) {
         Todo todo = (Todo) model.asMap().getOrDefault("todo", todosService.findTodoById(id));
         model.addAttribute("todo", todo);
         model.addAttribute("errorMessage", model.asMap().getOrDefault("errorMessage", ""));
@@ -83,10 +85,10 @@ public class TodosController {
     public RedirectView updateTodoPage(@Valid Todo todo,
                                        BindingResult result,
                                        RedirectAttributes redirectAttributes
-    ){
-        if(result.hasErrors()){
+    ) {
+        if (result.hasErrors()) {
             List<ObjectError> errors = result.getAllErrors();
-            for(ObjectError error: errors){
+            for (ObjectError error : errors) {
                 String errorMessage = error.getDefaultMessage();
                 if (errorMessage != null) {
                     redirectAttributes.addFlashAttribute("todo", todo);
@@ -94,7 +96,7 @@ public class TodosController {
                 }
             }
 
-            return new RedirectView("/todos/update?id="+todo.getId());
+            return new RedirectView("/todos/update?id=" + todo.getId());
         }
 
         long todoId = todo.getId();

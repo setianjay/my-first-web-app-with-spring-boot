@@ -38,6 +38,7 @@
                             </div>
                         </div>
 
+                        <form:input type="hidden" cssClass="form-control" path="id" />
                         <form:input type="hidden" cssClass="form-control" path="username" />
                         <form:input type="hidden" cssClass="form-control" path="done" />
 
