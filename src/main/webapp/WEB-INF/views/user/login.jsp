@@ -1,8 +1,5 @@
-<%-- Before we use jspl tags, we must import it to jsp file --%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+        <%@ include file="../templates/header.jspf" %>
 
-<html>
-    <head>
         <title>Login Page</title>
         <style>
             html {
@@ -97,8 +94,8 @@
                 background-color: #0074CC;
             }
         </style>
-    </head>
-    <body>
+        <%@ include file="../templates/headerClosed.jspf" %>
+
         <section class="login-section">
             <div class="login-container">
                 <c:if test="${not empty errorMessage}">
@@ -121,5 +118,5 @@
                 </div>
             </div>
         </section>
-    </body>
-</html>
+
+    <%@ include file="../templates/footer.jspf" %>

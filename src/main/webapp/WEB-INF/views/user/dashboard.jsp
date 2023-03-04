@@ -1,9 +1,10 @@
-<html>
-    <head>
+        <%@ include file="../templates/header.jspf" %>
+
         <title>Dashboard Page</title>
-    </head>
-    <body>
-        <h3 align="center">Welcome on Dashboard Page ${username}!</h3>
-        <a href="todos">Manage your todos</a>
-    </body>
-</html>
+
+        <%@ include file="../templates/headerClosed.jspf" %>
+        <%@ include file="../templates/navigation.jspf" %>
+
+        <h3 class="text-center fw-bold">Welcome on Dashboard Page ${username}!</h3>
+
+        <%@ include file="../templates/footer.jspf" %>
