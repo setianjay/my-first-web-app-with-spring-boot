@@ -28,7 +28,8 @@ public class TodosController {
 
     @GetMapping("/todos")
     public String ToDosPage(Model model) {
-        model.addAttribute("todos", todosService.getTodos());
+        String username = (String) model.asMap().get("username");
+        model.addAttribute("todos", todosService.getTodosByUsername(username));
         return "user/todos";
     }
 

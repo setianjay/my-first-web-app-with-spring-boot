@@ -41,18 +41,23 @@ public class SpringSecurityConfiguration {
 
     @Bean
     public InMemoryUserDetailsManager userDetailsManager(BCryptPasswordEncoder passwordEncoder) {
-        UserDetails userDetails = User.builder()
-                .passwordEncoder(passwordEncoder::encode)
-                .username("setianjay")
-                .password("12345")
-                .roles("ADMIN", "USER")
-                .build();
+        UserDetails userDetails1 = createUser("setianjay", "12345");
+        UserDetails userDetails2 = createUser("gurindo", "12345");
 
-        return new InMemoryUserDetailsManager(userDetails);
+        return new InMemoryUserDetailsManager(userDetails1, userDetails2);
     }
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
+    }
+
+    private UserDetails createUser(String username, String password){
+        return User.builder()
+                .passwordEncoder(input -> passwordEncoder().encode(input))
+                .username(username)
+                .password(password)
+                .roles("ADMIN", "USER")
+                .build();
     }
 }

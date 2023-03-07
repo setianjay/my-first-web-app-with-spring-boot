@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -21,8 +20,8 @@ public class TodosService {
         todos.add(new Todo(++todoIdCounter, "setianjay", "Learn Clean Architecture", LocalDate.now().plusYears(1L), false));
     }
 
-    public List<Todo> getTodos() {
-        return Collections.unmodifiableList(todos);
+    public List<Todo> getTodosByUsername(String username) {
+        return todos.stream().filter(todo -> todo.getUsername().equals(username)).toList();
     }
 
     public void addTodo(TodoArg todoArg) {
