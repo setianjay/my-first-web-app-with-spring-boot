@@ -34,6 +34,8 @@ public class SpringSecurityConfiguration {
                 .cors()
                 .and()
                 .csrf().disable()
+                .headers().frameOptions().disable()
+                .and()
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();
