@@ -3,6 +3,7 @@ package com.setianjay.springboot.myfirstwebapp.controller.todos;
 import com.setianjay.springboot.myfirstwebapp.model.Todo;
 import com.setianjay.springboot.myfirstwebapp.model.TodoArg;
 import com.setianjay.springboot.myfirstwebapp.service.todo.TodosService;
+import com.setianjay.springboot.myfirstwebapp.util.MapUtil;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,7 +64,7 @@ public class TodosController {
             return new RedirectView("/todos/create");
         }
 
-        TodoArg todoArg = new TodoArg(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.isDone());
+        TodoArg todoArg = MapUtil.mapTodoToTodoArg(todo);
         todosService.addTodo(todoArg);
         return new RedirectView("/todos");
     }
@@ -101,7 +102,7 @@ public class TodosController {
         }
 
         long todoId = todo.getId();
-        TodoArg todoArg = new TodoArg(todo.getUsername(), todo.getDescription(), todo.getTargetDate(), todo.isDone());
+        TodoArg todoArg = MapUtil.mapTodoToTodoArg(todo);
         todosService.updateTodoById(todoId, todoArg);
         return new RedirectView("/todos");
     }
